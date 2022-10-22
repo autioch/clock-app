@@ -3,6 +3,18 @@
 
 <head>
     <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width">
+    <meta name="description" content="Simple clock">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
+    <link href="favicon.ico" rel="shortcut icon" type="image/x-icon">
+    <link href="favicon.ico" rel="shortcut icon">
+    <link href="favicon.ico" rel="icon">
+    <link rel="icon" href="favicon.ico" />
+    <link href="favicon.ico" rel="apple-touch-icon-precomposed">
+    <meta name="msapplication-TileImage" content="favicon.ico">
+    <meta name="msapplication-TileColor" content="transparent">
+    <meta name="theme-color" content="#000" />
+    <link rel="manifest" href="manifest.json">
     <title>Clock</title>
 </head>
 
@@ -168,6 +180,11 @@
         <div class="graduation--hour"></div>
     </div>
     <script>
+    if ('serviceWorker' in navigator) {
+        navigator.serviceWorker.register('service-worker.js');
+    }
+
+
         const graduationHour = document.querySelector('.graduation--hour');
         const graduationMinute = document.querySelector('.graduation--minute');
 

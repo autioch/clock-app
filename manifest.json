@@ -1,0 +1,35 @@
+{
+    "background_color": "#000",
+    "categories": [
+        "clock",
+        "time"
+    ],
+    "description": "Display a simple clock",
+    "dir": "ltr",
+    "display": "fullscreen",
+    "icons": [
+        {
+            "src": "images/256.png",
+            "sizes": "256x256",
+            "type": "image/png",
+            "purpose": "maskable any"
+        }
+    ],
+    "lang": "en-US",
+    "name": "Clock",
+    "orientation": "portrait",
+    "prefer_related_applications": false,
+    "related_applications": [],
+    "screenshots": [
+        {
+            "src": "images/screenshot.png",
+            "sizes": "1796x1080",
+            "type": "image/png"
+        }
+    ],
+    "scope": "https://autioch.github.io/clock-app/",
+    "short_name": "Clock",
+    "shortcuts": [],
+    "start_url": "https://autioch.github.io/clock-app/",
+    "theme_color": "#000"
+}
