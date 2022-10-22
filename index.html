@@ -1,0 +1,218 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+
+<head>
+    <meta charset="utf-8">
+    <title>Clock</title>
+</head>
+
+<body>
+    <style>
+        :root {
+            --shield-size: min(98vw, 98vh);
+            --shield-half: calc(var(--shield-size) / 2);
+            --shield-percent: calc(var(--shield-size) / 100);
+            --shield-percent-half: calc(var(--shield-size) / 200);
+            --shield-numbers: calc(var(--shield-size) / 2 - var(--shield-percent) * 8);
+            --color-bg: #000;
+            --color-shield: #f1f1f1;
+            --color-border: #999;
+            --color-hour: rgb(17, 0, 92);
+            --color-minute: rgb(126, 0, 109);
+            --color-second: rgb(161, 91, 0);
+        }
+
+        html {
+            font-family: Helvetica;
+            font-size: calc(var(--shield-percent) * 7);
+        }
+
+        html,
+        body {
+            width: 100%;
+            height: 100%;
+            padding: 0;
+            margin: 0;
+            border: 0;
+            overflow: hidden;
+        }
+
+        body {
+            background: var(--color-bg);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .shield {
+            background: var(--color-shield);
+            height: var(--shield-size);
+            width: var(--shield-size);
+            border-radius: calc(var(--shield-size) / 2);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            box-sizing: border-box;
+            position: relative;
+            border: solid var(--color-border) var(--shield-percent);
+            box-shadow: 0 0 var(--shield-percent) var(--color-border);
+        }
+
+
+        .shield-center {
+            position: relative;
+            width: 0;
+            height: 0;
+        }
+
+        .shield-center::after {
+            --center-radius: calc(var(--shield-percent) * 2);
+            --center-diameter: calc(var(--center-radius) * 2);
+            box-sizing: border-box;
+            width: var(--center-diameter);
+            height: var(--center-diameter);
+            border-radius: var(--center-radius);
+            background: var(--color-border);
+            content: '';
+            position: absolute;
+            top: calc(var(--center-radius) * -1);
+            left: calc(var(--center-radius) * -1);
+        }
+
+        .hand--hour {
+            position: absolute;
+            width: calc(var(--shield-half) / 3 * 2);
+            height: calc(var(--shield-percent) * 3);
+            border-radius: calc(var(--shield-percent)* 2);
+            background: var(--color-hour);
+            top: calc(var(--shield-percent) * -1.5);
+            left: calc(var(--shield-percent) * -1.5);
+            transform-origin: calc(var(--shield-percent) * 1.5) calc(var(--shield-percent) * 1.5);
+        }
+
+        .hand--minute {
+            position: absolute;
+            width: calc(var(--shield-half) / 4 * 3);
+            height: calc(var(--shield-percent) * 2);
+            border-radius: var(--shield-percent);
+            background: var(--color-minute);
+            top: calc(var(--shield-percent) * -1);
+            left: calc(var(--shield-percent) * -1);
+            transform-origin: calc(var(--shield-percent) * 1) calc(var(--shield-percent) * 1);
+        }
+
+        .hand--second {
+            position: absolute;
+            width: calc(var(--shield-half) / 4 * 3);
+            height: calc(var(--shield-percent) * 2);
+            border-radius: var(--shield-percent);
+            background: var(--color-second);
+            top: calc(var(--shield-percent) * -1);
+            left: calc(var(--shield-percent) * -1);
+            transform-origin: calc(var(--shield-percent) * 1) calc(var(--shield-percent) * 1);
+        }
+
+        .graduation--hour {
+            counter-reset: graduation--hour;
+            position: absolute;
+            height: calc(var(--shield-size) - var(--shield-percent) * 10);
+            width: calc(var(--shield-size) - var(--shield-percent) * 10);
+        }
+
+        .graduation--hour-item {
+            counter-increment: graduation--hour;
+            position: absolute;
+            width: 1em;
+            height: 1em;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            top: calc(50% - 0.5em);
+            left: calc(50% - 0.5em);
+            text-align: center;
+        }
+
+        .graduation--hour-item::before {
+            content: counter(graduation--hour);
+            color: var(--color-hour);
+        }
+
+        .graduation--minute {
+            position: absolute;
+            height: calc(var(--shield-size) - var(--shield-percent) * 2);
+            width: calc(var(--shield-size) - var(--shield-percent) * 2);
+        }
+
+        .graduation--minute-item {
+            height: calc(var(--shield-percent) * 2);
+            width: var(--shield-percent-half);
+            background: var(--color-border);
+            position: absolute;
+            top: 0;
+            left: 50%;
+            transform-origin: 0 calc(var(--shield-half) - var(--shield-percent));
+        }
+
+        .graduation--minute-item:nth-child(5n + 1) {
+            width: calc(var(--shield-percent-half) * 2);
+            height: calc(var(--shield-percent) * 4);
+        }
+    </style>
+    <div class="shield">
+        <div class="shield-center">
+            <div class="hand--second"></div>
+            <div class="hand--minute"></div>
+            <div class="hand--hour"></div>
+        </div>
+        <div class="graduation--minute"></div>
+        <div class="graduation--hour"></div>
+    </div>
+    <script>
+        const graduationHour = document.querySelector('.graduation--hour');
+        const graduationMinute = document.querySelector('.graduation--minute');
+
+        for (let i = 0; i < 60; i++) {
+            const el = document.createElement('div');
+
+            el.className = 'graduation--minute-item';
+            el.style.transform = `rotate(${6 * i}deg)`;
+            graduationMinute.appendChild(el);
+        }
+
+        for (let i = 0; i < 12; i++) {
+            const el = document.createElement('div');
+
+            el.className = 'graduation--hour-item';
+            const angle = 30 * i - 60;
+            const x = Math.cos(angle * Math.PI / 180);
+            const y = Math.sin(angle * Math.PI / 180);
+            el.style.transform = `translate(calc(var(--shield-numbers) * ${x}),calc(var(--shield-numbers) * ${y}))`;
+            graduationHour.appendChild(el);
+        }
+
+        const hourEl = document.querySelector('.hand--hour');
+        const minuteEl = document.querySelector('.hand--minute');
+        const secondEl = document.querySelector('.hand--second');
+        const hourCSSFix = 90;// hands start at 3, so they need to be rotated 90 deg
+
+        function tick() {
+            const now = new Date();
+            const hour = now.getHours();
+            const minute = now.getMinutes();
+            const second = now.getSeconds();
+            const hourAngle = (hour / 12) * 360 - hourCSSFix + (minute / 60) * 30;
+            const minuteAngle = (minute / 60) * 360 - hourCSSFix;
+            const secondAngle = (second / 60) * 360 - hourCSSFix;
+
+            hourEl.style.transform = `rotate(${hourAngle}deg)`;
+            minuteEl.style.transform = `rotate(${minuteAngle}deg)`;
+            secondEl.style.transform = `rotate(${secondAngle}deg)`;
+        }
+
+        tick();
+        // set frequent tick to minimize delays. Can't be just 1000ms since browsers don't expose realtime here.
+        setInterval(tick, 100);
+    </script>
+</body>
+
+</html>
